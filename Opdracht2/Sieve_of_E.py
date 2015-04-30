@@ -16,5 +16,4 @@ for i in range(1,N):
 T2 = time.perf_counter() 
 getallen.close()
 
-print(priemgetallen)
 print('Found',len(priemgetallen), 'Prime numbers smaller than', N,'in', T2-T1, 'sec.')
