@@ -1,5 +1,0 @@
-print('What is your name?')
-name = input()
-print('How many greetings?')
-aantal = input()
-print(aantal + ' x Hello, ' + name +'!')

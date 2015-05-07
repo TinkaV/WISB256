@@ -2,8 +2,20 @@ import math
 import random
 import sys
 
-N = int(sys.argv[1])
-L = int(sys.argv[2])
+try:
+    N = int(sys.argv[1])
+    L = float(sys.argv[2])
+except: 
+    print("Use: estimate_pi.py N L")
+    exit(1)
+
+if L > 1 or L < 0:
+    print("AssertionError: L should be smaller than 1")
+    exit(1)
+
+if len(sys.argv) > 3:
+    seed = float(sys.argv[3])
+    random.seed(seed)
 
 def drop_needle(L):
     x0 = random.random()
@@ -24,4 +36,7 @@ while i < N:
         hits = hits + 1
     i = i + 1
     
-print(hits)
+pi = 2*L*N / hits
+
+
+print(str(hits), "hits in", str(N), "tries \nPi =", str(pi))
