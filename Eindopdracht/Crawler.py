@@ -43,8 +43,6 @@ def JoriEnNienkesSuperfunctieEnTinkaIsErNiet(myurl):
     
 JoriEnNienkesSuperfunctieEnTinkaIsErNiet('http://www.boswell-beta.nl/')
 
-# print(Lijst)
-# print(len(Lijst))
 
 for i in Lijst:
     JoriEnNienkesSuperfunctieEnTinkaIsErNiet(i)
@@ -63,15 +61,14 @@ print(data)
 # print(len(Lijst))
 # print(X)
 
+n = len(Lijst)
+v = n*[1/n]
 
-v = len(Lijst)*[1/len(Lijst)]
-
-matrix = coo_matrix((data, (row, col)), shape=(len(Lijst), len(Lijst))).toarray()
+matrix = coo_matrix((data, (row, col)), shape=(n,n)).toarray()
 
 print(matrix)
 
 a = 0.15
-n = len(Lijst)
 s=(n,n)
 P=np.ones(s)
 
@@ -80,10 +77,24 @@ for i in range(10):
     v1=(1-a)*matrix.dot(v)
     v2 =(a/n)*P.dot(v)
     v = v1+v2
-    # som = sum(v)
-    # v = (1/som)*v
+
 
 print(v)
     
 
 
+woord = input('Welk woord wil je zoeken?\n')
+
+
+Woorderin = []
+      
+def check():
+    for i in range(len(Lijst)):
+        if woord in open(str(i)).read():
+            Woorderin.append(Lijst[i])
+            
+        else:
+            pass
+
+check()
+print(Woorderin)
