@@ -9,8 +9,8 @@ import numpy as np
 X=[]
 row=[]
 col=[]
-Lijst=['http://www.madurodam.nl/']
-domein = 'madurodam.nl'
+Lijst=['http://www.boswell-beta.nl/']
+domein = 'boswell-beta.nl'
 def JoriEnNienkesSuperfunctieEnTinkaIsErNiet(myurl):
     try:
         x = urllib.request.urlopen(myurl)
@@ -41,25 +41,27 @@ def JoriEnNienkesSuperfunctieEnTinkaIsErNiet(myurl):
     except:
         pass
     
-JoriEnNienkesSuperfunctieEnTinkaIsErNiet('http://www.madurodam.nl/')
+JoriEnNienkesSuperfunctieEnTinkaIsErNiet('http://www.boswell-beta.nl/')
 
 # print(Lijst)
 # print(len(Lijst))
 
 for i in Lijst:
     JoriEnNienkesSuperfunctieEnTinkaIsErNiet(i)
+    print(i)
 
-data = len(row)*[1]
+data = len(col)*[1]
 for i in range(len(col)):
-    deel = col.count(i)
+    deel = col.count(col[i]) # i veranderd in col[i]
     if deel != 0:
         data[i] = 1/deel
+        
+print(data)
 
-for j in Lijst:
-    print(str(Lijst.index(j))+ " "+ str(j))
+# for j in Lijst:
+#     print(str(Lijst.index(j))+ " "+ str(j))
 # print(len(Lijst))
-# print(X[-1])
-# print(len(X))
+# print(X)
 
 
 v = len(Lijst)*[1/len(Lijst)]
@@ -69,15 +71,19 @@ matrix = coo_matrix((data, (row, col)), shape=(len(Lijst), len(Lijst))).toarray(
 print(matrix)
 
 a = 0.15
-s=(len(row), len(col))
+n = len(Lijst)
+s=(n,n)
 P=np.ones(s)
-print(P)
+
 
 for i in range(10):
-    v1=((1-a)*matrix).dot(v)
-    v2 =(a*P).dot(v)
+    v1=(1-a)*matrix.dot(v)
+    v2 =(a/n)*P.dot(v)
     v = v1+v2
     # som = sum(v)
     # v = (1/som)*v
-    
+
 print(v)
+    
+
+
