@@ -5,8 +5,8 @@ from re import findall
 from scipy.sparse import coo_matrix
 import numpy as np
 
-domein = 'boswell-beta.nl'
-Lijst=['http://www.boswell-beta.nl/']
+domein = 'madurodam.nl'
+Lijst=['http://www.madurodam.nl/']
 def Schrijffunctie(myurl):
     try:
         x = urllib.request.urlopen(myurl)
@@ -30,10 +30,12 @@ def Schrijffunctie(myurl):
 for i in Lijst:
     Schrijffunctie(i)
 
+print(len(Lijst))
 
 for i in range(len(Lijst)):
     try:
         text = open(str(i),'w')
         text.write(str(urllib.request.urlopen(Lijst[i]).read()))
     except:
-        open(str(i),'w')
+        text2 = open(str(i),'w')
+        text2.write("poepie ")

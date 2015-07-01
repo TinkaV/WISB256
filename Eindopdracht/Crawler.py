@@ -9,92 +9,87 @@ import numpy as np
 X=[]
 row=[]
 col=[]
-Lijst=['http://www.boswell-beta.nl/']
-domein = 'boswell-beta.nl'
+domein = 'madurodam.nl'
+Links=['http://www.madurodam.nl/']
+
 def JoriEnNienkesSuperfunctieEnTinkaIsErNiet(myurl):
     try:
         x = urllib.request.urlopen(myurl)
         for i in re.findall('''href=["'](.[^"']+)["']''', str(x.read()), re.I):
-            if re.search("css", i) == None and re.search("png$", i) == None and re.search("ico$", i) == None and re.search("/rss/", i) == None and re.search(".pdf$", i) == None and re.search("facebook", i)==None and re.search("twitter", i)==None and re.search("mailto", i)==None and re.search("google", i)==None and re.search(" ", i)==None:
+            if re.search("css", i) == None and re.search("png$", i) == None and re.search("ico$", i) == None and re.search("/rss/", i) == None and re.search(".pdf$", i) == None and re.search("facebook", i)==None and re.search("twitter", i)==None and re.search("mailto", i)==None and re.search("google", i)==None and re.search(" ", i)==None and re.search("jpg", i) == None:
                 if (re.search(domein, i) == None) and (re.match('www', i)==None) and (re.match('http', i) == None):
                     if re.match("/", i) == None:
                         i = "/" + i
                     i = "http://www." + domein + i
-                    if (i in Lijst) == False:
-                        Lijst.append(i)
-                    a = (Lijst.index(i),Lijst.index(myurl))
+                    if (i in Links) == False:
+                        Links.append(i)
+                    a = (Links.index(i),Links.index(myurl))
                     if (a in X) == False:
                         X.append(a)
-                        row.append(Lijst.index(i))
-                        col.append(Lijst.index(myurl))
+                        row.append(Links.index(i))
+                        col.append(Links.index(myurl))
                         
                 elif re.search(domein, i):
                     
-                    if (i in Lijst) == False:
-                        Lijst.append(i)
-                    a = (Lijst.index(i),Lijst.index(myurl))
+                    if (i in Links) == False:
+                        Links.append(i)
+                    a = (Links.index(i),Links.index(myurl))
                     if (a in X) == False:
                         X.append(a)
-                        row.append(Lijst.index(i))
-                        col.append(Lijst.index(myurl))
+                        row.append(Links.index(i))
+                        col.append(Links.index(myurl))
                         
     except:
         pass
     
-JoriEnNienkesSuperfunctieEnTinkaIsErNiet('http://www.boswell-beta.nl/')
+JoriEnNienkesSuperfunctieEnTinkaIsErNiet('http://www.madurodam.nl/')
 
 
-for i in Lijst:
+for i in Links:
     JoriEnNienkesSuperfunctieEnTinkaIsErNiet(i)
-    print(i)
-
+    
 data = len(col)*[1]
 for i in range(len(col)):
     deel = col.count(col[i]) # i veranderd in col[i]
     if deel != 0:
         data[i] = 1/deel
         
-print(data)
-
-# for j in Lijst:
-#     print(str(Lijst.index(j))+ " "+ str(j))
-# print(len(Lijst))
-# print(X)
-
-n = len(Lijst)
-v = n*[1/n]
-
+n = len(Links)
+pagerank = n*[1/n]
 matrix = coo_matrix((data, (row, col)), shape=(n,n)).toarray()
-
-print(matrix)
 
 a = 0.15
 s=(n,n)
 P=np.ones(s)
 
-
 for i in range(10):
-    v1=(1-a)*matrix.dot(v)
-    v2 =(a/n)*P.dot(v)
-    v = v1+v2
+    v1=(1-a)*matrix.dot(pagerank)
+    v2 =(a/n)*P.dot(pagerank)
+    pagerank = v1+v2
 
+text1 = open('Pagerank','w')
+text1.write(str(pagerank))
+print(str(pagerank))
 
-print(v)
-    
+text2 = open('Links','w')
+text2.write(str(Links))
+print(str(Links))
 
-
-woord = input('Welk woord wil je zoeken?\n')
-
-
-Woorderin = []
-      
-def check():
-    for i in range(len(Lijst)):
-        if woord in open(str(i)).read():
-            Woorderin.append(Lijst[i])
+# def zoek():
+#     print(len(Links))
+#     for i in range(len(Links)): #-1 weggehaald
+#         if woord in open(str(i)).read():
+#             Woorderin.append([i,Links[i],pagerank[i]]) # ipv alleen link, lijstjes met drie elementen
             
-        else:
-            pass
+#         else:
+#             pass
 
-check()
-print(Woorderin)
+# while True:
+#     woord = input("Welk woord wil je zoeken? (Als je klaar bent met zoeken, typ dan 'exit')\n")
+#     if woord == "exit":
+#         break
+#     else:
+#         Woorderin = []
+#         zoek()
+#         Woorderin=sorted(Woorderin, key=lambda x: -1*x[2]) # functie om op pagerank te sorteren, -1* om van groot naar klein te sorteren
+#         print(Woorderin)
