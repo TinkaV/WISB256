@@ -34,7 +34,13 @@ def zoek(woord):
             titel = re.search(r'<title>(.*)</title>', InhoudBestand)
             # kijk of woord in titel
             if woord.lower() in titel.group(1).lower():
-                print("zit in titel")
+                # print("zit in titel")
+                Pagerank[i]=Pagerank[i]*2 # Als woord in titel dan wordt pagerank vedubbeld
+            # zoek hoe vaak het woord voorkomt
+            aantal = InhoudBestand.count(woord)
+            print(aantal)
+            #Pagerank[i]=Pagerank[i]*aantal
+            
             Woorderin.append([i,Links[i],Pagerank[i]]) # ipv alleen link, lijstjes met drie elementen
             
         else:
