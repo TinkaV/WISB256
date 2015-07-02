@@ -11,7 +11,12 @@
 # while True:
 #     woord = input('Welk woord wil je zoeken?\n')
 #     zoek()
-
+import urllib
+import urllib.request
+import re
+from re import findall
+from scipy.sparse import coo_matrix
+import numpy as np
 
 GelezenLinks = open('Links').read()
 Links = (GelezenLinks[2:-2]).split("', '")
@@ -21,9 +26,15 @@ Pagerank=[]
 for i in GelezenPagerank:
     Pagerank.append(float(i))
     
-def zoek():
+def zoek(woord):
     for i in range(len(Links)):
-        if woord in open(str(i)).read():
+        InhoudBestand=open(str(i)).read()
+        if woord in InhoudBestand:
+            # zoek eerst titel op
+            titel = re.search(r'<title>(.*)</title>', InhoudBestand)
+            # kijk of woord in titel
+            if woord.lower() in titel.group(1).lower():
+                print("zit in titel")
             Woorderin.append([i,Links[i],Pagerank[i]]) # ipv alleen link, lijstjes met drie elementen
             
         else:
@@ -32,10 +43,10 @@ def zoek():
 while True:
     woord = input("Welk woord wil je zoeken? (Als je klaar bent met zoeken, typ dan 'exit')\n")
     if woord == "exit":
-        print("Bedankt voor het gebruiken van onze superzoekmachine, groetjes Jori en Nienke, Tinka was helaas afwezig")
+        print("Bedankt voor het gebruiken van onze superzoekmachine, groetjes Jori en Nienke, Tinka was helaas afwezig.")
         break
     else:
         Woorderin = []
-        zoek()
+        zoek(woord)
         Woorderin=sorted(Woorderin, key=lambda x: -1*x[2]) # functie om op pagerank te sorteren, -1* om van groot naar klein te sorteren
         print(Woorderin)

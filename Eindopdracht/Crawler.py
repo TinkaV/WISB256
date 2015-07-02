@@ -16,7 +16,7 @@ def JoriEnNienkesSuperfunctieEnTinkaIsErNiet(myurl):
     try:
         x = urllib.request.urlopen(myurl)
         for i in re.findall('''href=["'](.[^"']+)["']''', str(x.read()), re.I):
-            if re.search("css", i) == None and re.search("png$", i) == None and re.search("ico$", i) == None and re.search("/rss/", i) == None and re.search(".pdf$", i) == None and re.search("facebook", i)==None and re.search("twitter", i)==None and re.search("mailto", i)==None and re.search("google", i)==None and re.search(" ", i)==None and re.search("jpg", i) == None:
+            if re.search("css", i) == None and re.search("png$", i) == None and re.search("ico$", i) == None and re.search("/rss/", i) == None and re.search(".pdf$", i) == None and re.search("facebook", i)==None and re.search("twitter", i)==None and re.search("mailto", i)==None and re.search("google", i)==None and re.search(" ", i)==None and re.search("jpg", i) == None and re.search(".doc", i) == None:
                 if (re.search(domein, i) == None) and (re.match('www', i)==None) and (re.match('http', i) == None):
                     if re.match("/", i) == None:
                         i = "/" + i
